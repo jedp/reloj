@@ -1,0 +1,33 @@
+{"name": "reloj",
+ "description": "A console for aggregating logs and system monitoring data",
+ "version": "0.0.1", 
+
+ "authors": ["Jed Parsons <jed@jedparsons.com> (http://jedparsons.com)"],
+
+ "repository":
+    {"type": "git",
+     "url": "https://github.com/jedp/reloj"},
+
+ "licenses":
+  [ {"type": "MIT",
+     "url": "https://github.com/jedp/reloj/blob/master/LICENSE"} ],
+
+ "main": "server.js",
+
+ "dependencies": {
+    "backbone": "",
+    "connect": "",
+    "connect-redis": "",
+    "express": "",
+    "expresso": "",
+    "jade": "",
+    "less": "",
+    "mongoose": ">=1.0.0",
+    "now": "",
+    "optimist": ">=0.2.0",
+    "qs": "",
+    "redis": "",
+    "socket.io": "",
+    "underscore": "" 
+    }
+}

@@ -1,0 +1,41 @@
+!!!5
+html
+  head
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    script(src='/javascripts/headjs/dist/head.min.js')
+
+    title Log View
+  body
+    #log-record-template(style='display: none')
+      .log-record
+        ul
+          li.level {{ level }}
+          li.name {{ name }}
+          li.msg {{ msg }}
+
+          li.funcname {{ funcname }}
+            span , in {{ filename }}, line {{ line_no }} 
+
+          li.user 
+            span.username {{ username }}
+            span @
+            span.hostname {{ hostname }}
+
+          li.time 
+            abbr(class='date', title='{{ time }}') {{ time }}
+      .args {{ args }}
+      .traceback {{ traceback }}
+
+    #content!= body
+
+    script
+      head.js(
+        {jquery:        "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"},
+        {timeago:       "/javascripts/jquery-timeago/jquery.timeago.js"},
+        {underscore:    "/javascripts/underscore/underscore.js"},
+        {backbone:      "/javascripts/backbone/backbone.js"},
+        {nowjs:         "/nowjs/now.js"},
+        {models:        "/javascripts/models.js"}
+      );
+  

@@ -1,0 +1,10 @@
+#log-monitor-application
+
+script
+  head.ready(function() {
+    var mon = new LogMonitor;
+    var app = new LogMonitorView({model:mon});
+  });
+
+
+
