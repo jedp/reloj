@@ -23,14 +23,15 @@ var LogRecordView = Backbone.View.extend({
     this.model.set({
       'msg': this.model.escape('msg'),
       'traceback': this.model.escape('traceback'),
-      'funcname': this.model.escape('funcname')
+      'funcname': this.model.escape('funcname'),
+      'filename': this.model.escape('filename')
     });
     var viewHtml = this.template(this.model.toJSON());
     $(this.el).html(viewHtml);
     $(this.el).addClass(this.model.get('level'));
 
     // escape some fields
-    this.$('.date').timeago();
+    this.$('abbr.date').timeago();
     return this;
   }
 });
