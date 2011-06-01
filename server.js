@@ -4,8 +4,9 @@
  */
 
 var express = require('express');
+var _ = require('underscore');
 var redis = require('redis');
-
+var models = require('./models');
 var app = module.exports = express.createServer();
 var everyone = require('now').initialize(app);
 
@@ -32,18 +33,35 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Express'
+    title: 'reloj console'
   });
 });
 
-// Listen for log messages
-
-var redis_subscriber = redis.createClient();
-redis_subscriber.on("message", function(channel, message) {
-  message = JSON.parse(message);
-  everyone.now.addRecord(message)
+app.get('/channels', function(req, res) {
+  res.render('channels', {
+    title: 'reloj: subscription channels'
+  });
 });
-redis_subscriber.subscribe("log");
+
+// Listen on redis channels
+
+
+models.RedisSubscription.find({}, function(err, subscriptions) {
+  _.each(subscriptions, function(subscription) {
+    var redis_subscriber = redis.createClient(
+      subscription.redis_port,
+      subscription.redis_host
+    );
+    redis_subscriber.on("message", function(channel, message) {
+      message = JSON.parse(message);
+      everyone.now.addRecord(message)
+      var record = new models.Log(message);
+      record.save();
+    });
+    console.log(subscription);
+    redis_subscriber.subscribe(subscription.channel);
+  });
+});
 
 
 // Only listen on $ node app.js
