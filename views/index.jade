@@ -3,8 +3,10 @@
 script
   head.ready(function() {
     var mon = new LogMonitor;
-    var app = new LogMonitorView({model:mon});
-  });
+    var app = new LogMonitorView(mon);
 
+    var logCollection = new LogRecordCollection( !{JSON.stringify(logs) });
+    logCollection.each(app.addRecord);
+  });
 
 
