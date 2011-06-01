@@ -32,9 +32,15 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index', {
-    title: 'reloj console'
-  });
+  models.Log.find({})
+    .sort('date', -1)
+    .limit(100)
+    .execFind(function(err, logs) {
+      res.render('index', {
+        title: 'reloj console',
+        logs: logs
+      });
+    });
 });
 
 app.get('/channels', function(req, res) {
@@ -54,11 +60,14 @@ models.RedisSubscription.find({}, function(err, subscriptions) {
     );
     redis_subscriber.on("message", function(channel, message) {
       message = JSON.parse(message);
-      everyone.now.addRecord(message)
+      try {
+        everyone.now.addRecord(message);
+      } catch (err) {
+        console.error(err);
+      }
       var record = new models.Log(message);
       record.save();
     });
-    console.log(subscription);
     redis_subscriber.subscribe(subscription.channel);
   });
 });
