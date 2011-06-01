@@ -6,6 +6,10 @@ _.templateSettings = {
 var LogRecord = Backbone.Model.extend({
 });
 
+var LogRecordCollection = Backbone.Collection.extend({
+  model: LogRecord
+});
+
 var LogRecordView = Backbone.View.extend({
   model: LogRecord,
 
@@ -36,31 +40,32 @@ var LogRecordView = Backbone.View.extend({
   }
 });
 
-var LogRecords = Backbone.Collection.extend({
-  model: LogRecord
-});
-
 var LogMonitor = Backbone.Model.extend({
 });
 
 var LogMonitorView = Backbone.View.extend({
   model: LogMonitor,
  
-  el: '#log-monitor-application',
+  el: $('#log-monitor-application'),
 
   initialize: function() {
     var self = this;
+    _.bindAll(this, 'addRecord', 'render');
+    
+    // rpc method for server to add log data to me
     now.addRecord = function(record) {
       self.addRecord(record);
     }
+
   },
 
   events: {
   },
 
+  // insert a new record at the top of the list
   addRecord: function(record) {
     var model = new LogRecord(record);
     var view = new LogRecordView({model: model});
-    $(this.el).append(view.render().el); 
+    $(this.el).prepend(view.render().el); 
   }
 });
