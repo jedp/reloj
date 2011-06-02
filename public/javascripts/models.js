@@ -53,11 +53,12 @@ var LogMonitorView = Backbone.View.extend({
 
   initialize: function() {
     var self = this;
-    _.bindAll(this, 'addRecord', 'render');
+    _.bindAll(this, 'insertRecord', 'render');
+    _.bindAll(this, 'appendRecord', 'render');
     
     // rpc method for server to add log data to me
     now.addRecord = function(record) {
-      self.addRecord(record);
+      self.insertRecord(record);
     }
 
   },
@@ -66,9 +67,15 @@ var LogMonitorView = Backbone.View.extend({
   },
 
   // insert a new record at the top of the list
-  addRecord: function(record) {
+  insertRecord: function(record) {
     var model = new LogRecord(record);
     var view = new LogRecordView({model: model});
     $(this.el).prepend(view.render().el); 
+  },
+
+  appendRecord: function(record) {
+    var model = new LogRecord(record);
+    var view = new LogRecordView({model: model});
+    $(this.el).append(view.render().el); 
   }
 });
