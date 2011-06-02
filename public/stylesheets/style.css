@@ -113,6 +113,7 @@ li.time {
 
 .error      .level{ background-color: red }
 .warning    .level{ background-color: orange }
+.debug      .level{ background-color: purple }
 
 .error      .msg { color: yellow }
 
