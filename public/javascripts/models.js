@@ -24,11 +24,14 @@ var LogRecordView = Backbone.View.extend({
   },
 
   render: function() {
+    // this is magic
+    var time = new Date(this.model.get('time') + ' -00:00');
     this.model.set({
       'msg': this.model.escape('msg'),
       'traceback': this.model.escape('traceback'),
       'funcname': this.model.escape('funcname'),
-      'filename': this.model.escape('filename')
+      'filename': this.model.escape('filename'),
+      'time': time.toISOString()
     });
     var viewHtml = this.template(this.model.toJSON());
     $(this.el).html(viewHtml);
