@@ -32,8 +32,9 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  models.Log.find({})
-    .sort('date', -1)
+  models.Log
+    .find()
+    .sort('$natural', 'descending')
     .limit(100)
     .execFind(function(err, logs) {
       res.render('index', {
